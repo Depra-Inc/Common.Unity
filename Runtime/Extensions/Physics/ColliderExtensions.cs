@@ -15,9 +15,9 @@ namespace Depra.Common.Unity.Runtime.Extensions.Physics
             var bounds = collider.bounds;
 
             var point = new Vector3(
-                Random.Range(bounds.min.x, bounds.max.x),
-                Random.Range(bounds.min.y, bounds.max.y),
-                Random.Range(bounds.min.z, bounds.max.z)
+                UnityEngine.Random.Range(bounds.min.x, bounds.max.x),
+                UnityEngine.Random.Range(bounds.min.y, bounds.max.y),
+                UnityEngine.Random.Range(bounds.min.z, bounds.max.z)
             );
 
             if (point != collider.ClosestPoint(point))

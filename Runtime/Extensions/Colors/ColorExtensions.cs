@@ -22,7 +22,7 @@ namespace Depra.Common.Unity.Runtime.Extensions.Colors
         /// <returns></returns>
         public static Color MakeRandomColor(this Color color, float minClamp = 0.5f)
         {
-            var randCol = Random.onUnitSphere * 3;
+            var randCol = UnityEngine.Random.onUnitSphere * 3;
             randCol.x = Mathf.Clamp(randCol.x, minClamp, 1f);
             randCol.y = Mathf.Clamp(randCol.y, minClamp, 1f);
             randCol.z = Mathf.Clamp(randCol.z, minClamp, 1f);

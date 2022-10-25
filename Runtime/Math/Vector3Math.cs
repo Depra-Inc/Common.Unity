@@ -64,7 +64,7 @@ namespace Depra.Common.Unity.Runtime.Math
         /// <param name="forward">must be unit</param>
         /// <returns></returns>
         public static Vector3 RandomDirection(float spread, Vector3 forward) =>
-            Vector3.Slerp(forward, Random.onUnitSphere, spread);
+            Vector3.Slerp(forward, UnityEngine.Random.onUnitSphere, spread);
 
         /// <summary>
         /// Find a point on the infinite line nearest to point.
