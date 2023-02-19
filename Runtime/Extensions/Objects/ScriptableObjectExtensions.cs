@@ -6,11 +6,13 @@ using System.Linq;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Depra.Common.Unity.Runtime.Extensions
+namespace Depra.Common.Unity.Runtime.Extensions.Objects
 {
     public static class ScriptableObjectExtensions
     {
-        [Conditional("UNITY_EDITOR")]
+        private const string EDITOR_DEFINE = "UNITY_EDITOR";
+        
+        [Conditional(EDITOR_DEFINE)]
         public static void AddToPreloadedAssets(this ScriptableObject scriptableObject)
         {
 #if UNITY_EDITOR
@@ -28,7 +30,7 @@ namespace Depra.Common.Unity.Runtime.Extensions
 #endif
         }
 
-        [Conditional("UNITY_EDITOR")]
+        [Conditional(EDITOR_DEFINE)]
         public static void RemoveEmptyPreloadedAssets()
         {
 #if UNITY_EDITOR
@@ -39,7 +41,7 @@ namespace Depra.Common.Unity.Runtime.Extensions
 #endif
         }
 
-        [Conditional("UNITY_EDITOR")]
+        [Conditional(EDITOR_DEFINE)]
         public static void AddSingleTypeInPreloadedAssets(this ScriptableObject scriptableObject)
         {
 #if UNITY_EDITOR
@@ -49,23 +51,25 @@ namespace Depra.Common.Unity.Runtime.Extensions
             {
                 passed = asset.GetType() == scriptableObject.GetType();
 
-                //Stop looping if we have an asset of this type in the player settings.
+                // Stop looping if we have an asset of this type in the player settings.
                 if (passed)
                 {
                     break;
                 }
             }
 
-            //Yikes, lets add this singleton to the player settings for them.
-            if (passed == false)
+            // Yikes, lets add this singleton to the player settings for them.
+            if (passed)
             {
-                // Add the config asset to the build.
-                preloadedAssets.Add(scriptableObject);
-                UnityEditor.PlayerSettings.SetPreloadedAssets(preloadedAssets.ToArray());
-                UnityEditor.AssetDatabase.SaveAssets();
-
-                Debug.Log($"<b>Auto added {scriptableObject} asset to the player settings and saved to disk.</b>");
+                return;
             }
+            
+            // Add the config asset to the build.
+            preloadedAssets.Add(scriptableObject);
+            UnityEditor.PlayerSettings.SetPreloadedAssets(preloadedAssets.ToArray());
+            UnityEditor.AssetDatabase.SaveAssets();
+
+            Debug.Log($"<b>Auto added {scriptableObject} asset to the player settings and saved to disk.</b>");
 #endif
         }
     }
