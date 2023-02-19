@@ -1,33 +1,17 @@
 // Copyright © 2022 Nikolay Melnikov. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Depra.Common.Unity.Runtime.Math.Extensions;
 using UnityEngine;
 
-namespace Depra.Common.Unity.Runtime.Extensions
+namespace Depra.Common.Unity.Runtime.Extensions.Components
 {
     /// <summary>
     /// <see cref="Transform"/> extensions.
     /// </summary>
-    public static class TransformExtensions
+    public static partial class TransformExtensions
     {
-        #region Syntax
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public static Vector3 backward(this Transform transform) => -transform.forward;
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public static Vector3 down(this Transform transform) => -transform.up;
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public static Vector3 left(this Transform transform) => -transform.right;
-
-        #endregion
-
         /// <summary>
         /// Returns children of self transform.
         /// </summary>
@@ -79,32 +63,6 @@ namespace Depra.Common.Unity.Runtime.Extensions
         /// <returns>True if other is child of self and false otherwise.</returns>
         public static bool IsParentOf(this Transform self, Transform other, bool nesting = false) =>
             nesting ? self.GetChildren(true).Contains(other) : other.IsChildOf(self);
-
-        /// <summary>
-        /// Creates TRS-matrix from transform.
-        /// </summary>
-        /// <param name="self">Self transform</param>
-        /// <returns>TRS-matrix</returns>
-        public static Matrix4x4 GetTRSMatrix(this Transform self) =>
-            Matrix4x4.TRS(self.position, self.rotation, self.localScale);
-
-        /// <summary>
-        /// Applies the TRS-matrix to self transform.
-        /// </summary>
-        /// <param name="self">Self transform</param>
-        /// <param name="matrix">Matrix to apply</param>
-        /// <exception cref="ArgumentException">Not valid matrix</exception>
-        public static void SetTRSMatrix(this Transform self, Matrix4x4 matrix)
-        {
-            if (matrix.ValidTRS() == false)
-            {
-                throw new ArgumentException("Not valid matrix.", nameof(matrix));
-            }
-
-            self.rotation = matrix.GetRotation();
-            self.position = matrix.GetPosition();
-            self.localScale = matrix.GetScale();
-        }
 
         public static Vector3 DirectionTo(this Transform source, Transform target) =>
             source.DirectionTo(target.position);

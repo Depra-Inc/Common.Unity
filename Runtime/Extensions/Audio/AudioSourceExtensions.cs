@@ -22,6 +22,7 @@ namespace Depra.Common.Unity.Runtime.Extensions.Audio
             }
         }
 
-        public static void ToggleMute(this AudioSource audioSource) => audioSource.mute = !audioSource.mute;
+        public static void ToggleMute(this AudioSource audioSource) =>
+            audioSource.mute = !audioSource.mute;
     }
 }
